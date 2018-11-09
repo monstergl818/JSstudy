@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css.css" /> 
+	</head>
+
+	<body>
+		<script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.fly.js" type="text/javascript" charset="utf-8"></script>
+		<div class="page">
+			<ul class="goods_list">
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品2</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品3</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品4</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品5</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品6</p>
+					<div class="btn">加入购物车</div>
+					
+				</li>
+			</ul>
+			<div class="cart">
+				<p class="count">0</p>
+			</div>
+		</div>
+		<div id="tips" >
+			成功加入购物车动画效果
+		</div>
+		<script src="jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.fly.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//我们要实现的效果是：当点击“加入购物车”按钮后，商品图片会变成一个缩小的圆球，以按钮为起点，
+			//向左侧侧以抛物线的形式飞出到左侧的购物车里。
+			//在飞出之前，我们要获取当前商品的图片，然后调用fly插件，之后的抛物线轨迹都是由fly插件完成，
+			//我们只需定义起点和终点左边以及结束后销毁之前的动画。
+			$(document).ready(function(){
+				var cartPos = $('.cart').offset();
+				var cartCount = $(".count").text();  
+				$('.btn').click(function(event){
+					cartCount ++ ;
+					var imgSrc = $(this).siblings(".goods_pic").attr("src");
+					var flyImg = $('<img class="flyer-img" src="'+imgSrc+'" alt="" />');
+					console.log(flyImg);
+					flyImg.fly({
+						start:{
+							left : event.pageX,
+							top:event.pageY
+						},
+						end:{
+							left: cartPos.left + 8 ,
+							top : cartPos.top +8 
+						},
+						onEnd:function(){
+							this.destroy();
+							setTimeout(function(){
+								$(".count").text(cartCount);
+							},300)
+						}
+					})
+				})
+			})
+			
+ 
+		 
+		</script>
+	</body>
+
+</html>

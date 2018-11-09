@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css.css" /> 
+	</head>
+
+	<body>
+		<script src="jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.fly.js" type="text/javascript" charset="utf-8"></script>
+		<div class="page">
+			<ul class="goods_list">
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品2</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品3</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品4</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品5</p>
+					<div class="btn">加入购物车</div>
+				</li>
+				<li>
+					<img class="goods_pic" src="codelogo.png" />
+					<p class="goods_tit">商品6</p>
+					<div class="btn">加入购物车</div>
+				</li>
+			</ul>
+			<div class="cart">
+				<p class="count">0</p>
+			</div>
+		</div>
+		<div id="tips" >
+			成功加入购物车动画效果
+		</div>
+		<script type="text/javascript">
+			//我们要实现的效果是：当点击“加入购物车”按钮后，商品图片会变成一个缩小的圆球，以按钮为起点，向右侧以抛物线的形式飞出到右侧的购物车里。在飞出之前，我们要获取当前商品的图片，然后调用fly插件，之后的抛物线轨迹都是由fly插件完成，我们只需定义起点和终点左边以及结束后销毁之前的动画。
+			var goodsCount = $(".count").text() 
+			$(function() {
+				var offset = $(".cart").offset();
+				//console.log(offset);
+				$(".btn").click(function(event) {
+					
+					var img = $(this).siblings('.goods_pic').attr('src'); //获取当前点击图片链接   
+					var flyer = $('<img class="flyer-img" src="' + img + '">'); //抛物体对象   
+					flyer.fly({
+						start: {
+							left: event.pageX, //抛物体起点横坐标   
+							top: event.pageY //抛物体起点纵坐标   
+						},
+						end: {
+							left: offset.left + 8, //抛物体终点横坐标   
+							top: offset.top + 8, //抛物体终点纵坐标   
+						},
+						onEnd: function() {
+							this.destroy(); //移除dom
+							setTimeout(function(){
+								goodsCount ++;
+								$(".count").text(goodsCount);
+							},200)
+						},
+						speed: 1.2, //越大越快，默认1.2
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>
